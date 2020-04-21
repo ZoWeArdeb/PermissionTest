@@ -20,9 +20,9 @@ class UserSeeder extends Seeder
         });
 
         $user = new App\User();
-        $user->password = Hash::make('roottoor');
-        $user->email = 'arne.debou@zowe.be';
-        $user->name = 'Arne Debou';
+        $user->password = Hash::make('testtest');
+        $user->email = 'test@zowe.be';
+        $user->name = 'Admin';
         $user->save();
         $group = Group::where('name', 'admin')->first();
         $user->groups()->save($group);
