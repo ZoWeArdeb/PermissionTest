@@ -42,20 +42,28 @@ class User extends Authenticatable
         return $this->belongsToMany(IClass::class, 'students');
     }
 
-    //
-    public function groups()
-    {
-        return $this->belongsToMany(Group::class);
-    }
-
     public function students()
     {
         return $this->belongsToMany(Student::class);
     }
 
     //
+    public function groups()
+    {
+        return $this->hasMany(Group::class)
+        ->using(Member::class);
+    }
+    
+
     public function permissions()
     {
-        return $this->hasManyThrough(Permission::class, Group::class);
+        return $this->hasManyThrough(
+            Permission::class,          // The model to access to
+            Member::class, // The intermediate table that connects the User with the Podcast.
+            'user_id',                 // The column of the intermediate table that connects to this model by its ID.
+            'group_id',              // The column of the intermediate table that connects the Podcast by its ID.
+            'id',                      // The column that connects this model with the intermediate model table.
+            'group_id'               // The column of the Audio Files table that ties it to the Podcast.
+        );
     }
 }

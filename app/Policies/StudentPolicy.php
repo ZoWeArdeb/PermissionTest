@@ -22,6 +22,7 @@ class StudentPolicy
     public function viewAny(User $user)
     {
         //
+        dd($user->permissions);
         $result = DB::table('users')
         ->join('group_user', 'users.id', '=', 'group_user.user_id')
         ->join('groups', 'group_user.group_id', '=', 'groups.id')
