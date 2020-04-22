@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -56,6 +57,11 @@ class User extends Authenticatable
     //
     public function permissions()
     {
-        return $this->hasManyThrough(Permission::class, Group::class);
+        return DB::table('users')
+        ->join('group_user', 'users.id', '=', 'group_user.user_id')
+        ->join('groups', 'group_user.group_id', '=', 'groups.id')
+        ->join('group_permission', 'groups.id', '=', 'group_permission.group_id')
+        ->join('permissions', 'group_permission.permission_id', '=', 'permissions.id')
+        ->select('permissions.*')->where('users.id', '=', $this->id)->get();
     }
 }

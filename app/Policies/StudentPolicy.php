@@ -22,13 +22,7 @@ class StudentPolicy
     public function viewAny(User $user)
     {
         //
-        $result = DB::table('users')
-        ->join('group_user', 'users.id', '=', 'group_user.user_id')
-        ->join('groups', 'group_user.group_id', '=', 'groups.id')
-        ->join('group_permission', 'groups.id', '=', 'group_permission.group_id')
-        ->join('permissions', 'group_permission.permission_id', '=', 'permissions.id')
-        ->select('permissions.*')->where('users.id', '=', $user->id)->where('permissions.name', '=', 'viewAny.student')->count();
-        return $result > 0
+        return in_array('viewAny.student', $user->permissions()->pluck('name')->toArray())
                     ? Response::allow()
                     : Response::deny("You're not allowed to view students");
     }
