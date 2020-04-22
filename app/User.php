@@ -43,18 +43,19 @@ class User extends Authenticatable
         return $this->belongsToMany(IClass::class, 'students');
     }
 
-    //
-    public function groups()
-    {
-        return $this->belongsToMany(Group::class);
-    }
-
     public function students()
     {
         return $this->belongsToMany(Student::class);
     }
 
     //
+    public function groups()
+    {
+        return $this->hasMany(Group::class)
+        ->using(Member::class);
+    }
+    
+
     public function permissions()
     {
         return DB::table('users')
