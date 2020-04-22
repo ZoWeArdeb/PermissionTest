@@ -9,8 +9,7 @@ class Group extends Model
     //
     public function users()
     {
-        return $this->belongsToMany(User::class)
-            ->using(Member::class);
+        return $this->belongsToMany(User::class);
     }
     //
     public function permissions()

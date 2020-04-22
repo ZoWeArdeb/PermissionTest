@@ -24,5 +24,7 @@ class UserSeeder extends Seeder
         $user->email = 'test@zowe.be';
         $user->name = 'Admin';
         $user->save();
+        $group = Group::where('name', 'admin')->first();
+        $user->groups()->save($group);
     }
 }

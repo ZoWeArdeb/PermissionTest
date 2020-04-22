@@ -14,13 +14,6 @@ class Permission extends Model
 
     public function users()
     {
-        return $this->hasManyThrough(
-            User::class,
-            Member::class,
-            'group_id',
-            'user_id',
-            'id',
-            'group_id'
-        );
+        return $this->hasManyThrough(User::class, Group::class);
     }
 }
